@@ -170,7 +170,7 @@ There are a few python Neural Network packages. Only two had even close to enoug
 
 And there you have it.
 
-### And beyond ...
+### And beyond ... genetic codes & fuzzy logic
 
 If you did all this using the `test.csv` dataset, only about a day's worth of price data, your model isn't going to be very good. Also, the simple recurrent neural network with generic mean-squared error function turned out to not be a very good way to represent "error" in predicting price changes. When all you're trying to do it get as "close as possible" to the price change value, the NN seemed to hover around zero, without regard to positive or minus. This is a huge problem if you're trading based on whether or not the network says the price will go up or down. There are alternative error functions that could work better for our ultimate goal. One idea I read about was to use an error function that penalizes more heavily if our model predicts the wrong direction of price movement.
 

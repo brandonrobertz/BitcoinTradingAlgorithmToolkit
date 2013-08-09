@@ -46,6 +46,19 @@ ltc_opts = \
    "instant": True,
    "time_str": time_str }
 
+# Or if you wanted to use an randomized genetic code ... add this in place of
+# ltc_opts in Data() to use it
+import genetic
+
+# create a random individual
+individual = genetic.rand_gene()
+
+# mutate with 0-mean, 4-std dev gaussian random fcn & 40% chance of mutation
+individual = genetic.mutate_gene( individual, 0, 4, 0.4)
+
+# turn the genetic code into a Data options struct, with a 5 min timeframe
+btc_opts = genetic.decode_gene( individual, 5) # this can be used in Data()
+
 # warp and instant = True forces Data to calculate everything all in one
 # pass. Other options would make it run in simulated real time. Load 
 # filename called "test.csv" from ./logs/ ... Data
@@ -85,7 +98,7 @@ net.addRecurrentConnection(FullConnection(net["out"], net["hidden1"], name="cout
 net.sortModules()
 net.randomize()
 
-# train for 30 epochs using the rprop- training algorithm
+# train for 30 epochs (overkill) using the rprop- training algorithm
 trainer = RPropMinusTrainer( net, dataset=train_set, verbose=True )
 trainer.trainOnDataset( train_set, 30)
 
