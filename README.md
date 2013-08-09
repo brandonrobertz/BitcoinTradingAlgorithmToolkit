@@ -188,7 +188,9 @@ All it takes is one miner to do a market-order sell of 1,000 BTC to send the mar
 
 ## Dependencies
 
-- pandas
-- numpy
-- matplotlib (for plots)
-- eventlet (for ticker logging)
+I tried to keep it minimal.
+
+- pandas: http://pandas.pydata.org/
+- numpy: http://www.numpy.org/
+- matplotlib (for plots): http://matplotlib.org/
+- eventlet (for ticker logging): http://eventlet.net/
