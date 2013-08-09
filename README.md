@@ -121,7 +121,7 @@ That should have stripped any starting Nans (some of the technical indicators ne
 
 ### Using with a Neural Network
 
-There are a couple python Neural Network packages. Only two had even close to enough functionality to use: (pybrain)[http://pybrain.org/] and (neurolab)[https://code.google.com/p/neurolab/]. I also experimented with using (Python-Matlab-Wormholes)[http://code.google.com/p/python-matlab-wormholes/] and using the Matlab Neural Network Toolkit (which has some great implementations of recurrent/time-delayed neural networks). Here's an example with pybrain:
+There are a couple python Neural Network packages. Only two had even close to enough functionality to use: [pybrain](http://pybrain.org/) and [neurolab](https://code.google.com/p/neurolab/). I also experimented with using [Python-Matlab-Wormholes](http://code.google.com/p/python-matlab-wormholes/) and using the Matlab Neural Network Toolkit (which has some great implementations of recurrent/time-delayed neural networks). Here's an example with pybrain:
 
     from pybrain.datasets            import SupervisedDataSet
     from pybrain.tools.shortcuts     import buildNetwork
@@ -174,9 +174,9 @@ If you did all this using the test.csv dataset, only about a day's worth of pric
 
 Trying to hack this into pybrain turned out to be difficult because the error function seems to be hardcoded into the NN code. Neurolab makes it easier to implement custom error functions and I had some success using a "weighted directional symmetry" (WDS) error function. But it wasn't super-accurate, either, and didn't generalize well far into the future.
 
-There was also the problem of optimizing the parameters to each technical indicator. I approached this problem by using genetic algorithms to find the most accurate combinations of which technical indicators and statistical analysis methods to use and which parameters to use with them. I used (DEAP)[https://code.google.com/p/deap/] for this and was happy with the project and result. The end result still wasn't anywhere near perfect at predicting the price movements, though, so I tried another strategy ...
+There was also the problem of optimizing the parameters to each technical indicator. I approached this problem by using genetic algorithms to find the most accurate combinations of which technical indicators and statistical analysis methods to use and which parameters to use with them. I used [DEAP](https://code.google.com/p/deap/) for this and was happy with the project and result. The end result still wasn't anywhere near perfect at predicting the price movements, though, so I tried another strategy ...
 
-Turning to fuzzy-logic, I had a little more success (theoretically profitable models) using (pyfuzzy)[http://pyfuzzy.sourceforge.net/] (which took a lot of hacking to import for some reason), a very minimalistic number of indicators, and DEAP-based genetic algorithms for technical indicator parameter optimization. These models didn't stay profitable for very long at all, though.
+Turning to fuzzy-logic, I had a little more success (theoretically profitable models) using [pyfuzzy](http://pyfuzzy.sourceforge.net/) (which took a lot of hacking to import for some reason), a very minimalistic number of indicators, and DEAP-based genetic algorithms for technical indicator parameter optimization. These models didn't stay profitable for very long at all, though.
 
 ## Dependencies
 
