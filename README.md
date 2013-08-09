@@ -5,11 +5,11 @@ A framework for logging, simulating, and analyzing prices of crypto currencies o
 
 Throw me a (fraction of a bit)coin if you find this handy. 1GqES1gCLdHd2gE2P6L1gqyYjf87bjn8mA
 
-## Details
+## What is this?
 
 Can machine learning be used to trade Bitcoin profitably? Can ML algorithms predict the prices based on technical indicators? This was an experiment in seeing how well a neural network or fuzzy logic could learn the "rules" of the various Bitcoin markets' price movements. (If they exist at all.) To do that I needed a framework for logging and then replaying price movements and a way to show them to the algorithms. I dug up some of the most common and more obscure indicators referenced in some classic NN-trading literature from old books, mathematical formulas, and other languages' implementations.
 
-Careful using this code. Especially if you're betting actual money. (Insane!) I this code a lot, but it could easily still have bugs. (Especially when it comes to oddities with numpy's NaN and few of the indicators accounted for division by zero.)
+Careful using this code. Especially if you're betting actual money. (Insane!) I tested this code a lot, but it could easily still have a good amount of bugs. (Especially when it comes to oddities with numpy's NaN and the fact that barely any of the indicators accounted for division by zero.)
 
 Remember that trading is gambling and that technical indicators are just a way to fool us into thinking we can see the future.
 
@@ -18,6 +18,7 @@ Remember that trading is gambling and that technical indicators are just a way t
 `logtick.py` is what I used to log ticker, market depth, and volume information from BTC-e and Mt. Gox to a CSV file. There are better logging tools and scripts out there, but you can find them yourself. Mine uses multiprocessing and compresses the entire depth information for that moment. If you want to train a machine learning algorithm, especially a neural network, you need tons of data. The more you get, the better at generalizing your NN can be. I set it to log day and night for about a month. Since my intent was to trade LTC automatically, I was interested in LTC volume, not BTC-e BTC or GOX volume, so that was all I logged.
 
 `logtick.py` logs the following fields to CSV:
+
     gox_last, gox_buysell, gox_time ,
     btc_usd_last, btc_usd_buysell, btc_usd_time,
     ltc_btc_last, ltc_btc_buysell, ltc_btc_time,
@@ -105,7 +106,7 @@ I tried a lot of different inputs to the machine learning algorithms. Technical 
 
 I chose these specific indicators because they were featured in a lot of "classic" algorithmic trading articles, particularly "Forecasting Foreign Exchange Rates Using Recurrent Neural Networks" by Paolo Tenti.
 
-### COnverting and Training with Data
+### Converting and Training with Data
 
 `dtools.py` has a lot of convenience functions for turning our dataframes into input and target matrices. The `gen_ds` function in particular will perform this transformation (continuing from the above example):
 
@@ -116,7 +117,7 @@ I chose these specific indicators because they were featured in a lot of "classi
     # which are raw price movements)
     dataset, tgt = dtools.gen_ds( ltc, 1, ltc_opts, "CRT")
 
-That should have stripped any starting Nans (some of the technical indicators need time to "warm up") and shifted our prices forward into `tgt`
+That should have stripped any starting Nans (some of the technical indicators need time to "warm up") and shifted our prices forward into `tgt`. We will use `dataset` as our inputs and `tgt` as the training examples.
 
 ## Dependencies
 
