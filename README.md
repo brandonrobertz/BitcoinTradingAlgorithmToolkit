@@ -25,7 +25,7 @@ DISCLAIMER: Trading is gambling and technical indicators are just another way to
     ltc_last, ltc_buysell, ltc_time,
     ltc_depth, ltc_depth_time, ltc_24h_volume
 
-gox_* comes from Mt. Gox BTC, btc_usd_* is BTC<->USD on BTC-e, ltc_btc_* is BTC<->LTC on BTC-e, and ltc_* is LTC<->USD on BTC-e.
+`gox_*` comes from Mt. Gox BTC, `btc_usd_*` is BTC<->USD on BTC-e, `ltc_btc_*` is BTC<->LTC on BTC-e, and `ltc_*` is LTC<->USD on BTC-e.
 
 ### Analyzing and Simulating
 
@@ -176,7 +176,20 @@ If you did all this using the `test.csv` dataset, only about a day's worth of pr
 
 Trying to hack this into pybrain turned out to be a nightmare because the error function seems to be obscurely hardcoded into the NN code. Neurolab makes it easier to implement custom error functions and I had more success using a "weighted directional symmetry" (WDS) error function.
 
-There was also the problem of optimizing the parameters to each technical indicator. I approached this problem by using genetic algorithms to find the most accurate combinations of which technical indicators and statistical analysis methods to use and which parameters to use with them. I used [DEAP](https://code.google.com/p/deap/) for this. The end result still wasn't anywhere near perfect at predicting the price movements, though, so I tried another strategy ...
+There was also the problem of optimizing the parameters to each technical indicator. I approached this problem by using genetic algorithms to find the most accurate combinations of which technical indicators and statistical analysis methods to use and which parameters to use with them. I used [DEAP](https://code.google.com/p/deap/) for this. `genetic.py` has some functions that help generate, encode, decode, and mutate random genes:
+
+    import genetic
+
+    # create a random individual
+    individual = genetic.rand_gene()
+
+    # mutate with 0-mean, 4-std dev gaussian random fcn & 40% chance of mutation
+    individual = genetic.mutate_gene( individual, 0, 4, 0.4)
+
+    # turn the genetic code into a Data options struct, with a 5 min timeframe
+    btc_opts = genetic.decode_gene( individual, 5) # this can be used in Data()
+
+The end result still wasn't anywhere near perfect at predicting the price movements, though, so I tried another strategy ...
 
 Turning to fuzzy-logic, I had even more success (theoretically profitable models) using [pyfuzzy](http://pyfuzzy.sourceforge.net/) (which took a lot of hacking to import for some reason), a minimalistic set of indicators, and DEAP-based genetic algorithms for technical indicator parameter optimization. These models didn't stay profitable for very long at all, though.
 
@@ -184,8 +197,8 @@ Turning to fuzzy-logic, I had even more success (theoretically profitable models
 
 My dreams of quitting the fry-cook business were crushed. The best model I developed used a genetic algorithm to find:
 
-1) Which technical indicators helped predict price movements best, and
-2) What parameters worked best for each indicator.
+1. Which technical indicators helped predict price movements best, and
+2. What parameters worked best for each indicator.
 
 It sent the inputs and targets (generated with the `data.py`) to Matlab using Python-Matlab Wormhole. It used a Matlab Neural Network to train and evaluate the result. The most successful NN had only three hidden neurodes, one recurrent layer, about five technical indicators (mostly standard deviations and trend-following indicators), and a short timespan (~5 mins). This model mostly hovered around zero (do nothing) and caught some of the large price spikes in the test and validation sets. *But* the model got wildly inaccurate quickly after the period it was trained and validated on, which suggests the Bitcoin market changes "modes" a lot or that my model wasn't generalizing as well as it needs to.
 
