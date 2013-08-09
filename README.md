@@ -178,6 +178,14 @@ There was also the problem of optimizing the parameters to each technical indica
 
 Turning to fuzzy-logic, I had a little more success (theoretically profitable models) using [pyfuzzy](http://pyfuzzy.sourceforge.net/) (which took a lot of hacking to import for some reason), a very minimalistic number of indicators, and DEAP-based genetic algorithms for technical indicator parameter optimization. These models didn't stay profitable for very long at all, though.
 
+### Conclusions
+
+The best model I developed used a genetic algorithm to find all the parameters and which technical indicators to use, sent the inputs and targets (generated with the `data.py`) to Matlab using Python-Matlab Wormhole, and used a Matlab Neural Network to train and evaluate the result. The most successful NN had only three hidden neurodes, one recurrent layer, about five technical indicators (mostly standard deviations and trend-following indicators), and a short timespan (~5 mins). This model mostly hovered around zero (do nothing) and caught some of the large price spikes in the test and validation sets, but got wildly inaccurate about a month beyond the validation period.
+
+Why is this? Well, for one, the bitcoin market is very emotional. A lot of bad news came out in the period of my building and training the networks, which sent the markets into random panics.
+
+All it takes is one miner to do a market-order sell of 1,000 BTC to send the market into total chaos. No machine learning algorithm was good at dealing with this by just looking at technical analysis.
+
 ## Dependencies
 
 - pandas
