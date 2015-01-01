@@ -3,7 +3,7 @@ BitcoinTradingAlgorithmToolkit
 
 A framework for logging, simulating, and analyzing prices of crypto currencies on various exchanges using technical analysis, fuzzy logic, and neural networks.
 
-If you like this ... BTC: 1GqES1gCLdHd2gE2P6L1gqyYjf87bjn8mA
+If you like this ... BTC: 1NejrUgQDm34CFyMHuaff9PNsd8zhd7SgR 
 
 ## What is this?
 
